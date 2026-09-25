@@ -29,8 +29,20 @@ test('null roster (read failure) → HOLD, no actions even if mirrors exist', ()
   assert.deepEqual(reconcile(null, [mirror('a', 'idle')]), []);
 });
 
-test('empty roster → HOLD, does not close existing mirrors', () => {
-  assert.deepEqual(reconcile([], [mirror('a', 'idle'), mirror('b', 'working')]), []);
+test('healthy empty roster → removes all stale mirrors', () => {
+  const actions = reconcile([], [mirror('a', 'idle'), mirror('b', 'working')]);
+  assert.deepEqual(types(actions), ['close', 'close']);
+  assert.deepEqual(actions.map((a) => a.key), ['a', 'b']);
+});
+
+test('healthy empty roster + removeOnExit=false → grays all stale mirrors', () => {
+  const actions = reconcile(
+    [],
+    [mirror('a', 'idle'), mirror('b', 'working')],
+    { removeOnExit: false },
+  );
+  assert.deepEqual(types(actions), ['status', 'status']);
+  assert.ok(actions.every((a) => a.status === 'exited'));
 });
 
 // ---------------------------------------------------------------------------
