@@ -76,13 +76,13 @@ from live state on every pass, so correctness never depends on caches or event d
 ## Install
 
 ```bash
-herdr plugin install lachieh/herdr-plugin-cmux
+herdr plugin install Svyable/herdr-plugin-cmux-remix
 ```
 
 or for development:
 
 ```bash
-git clone https://github.com/lachieh/herdr-plugin-cmux && cd herdr-plugin-cmux
+git clone https://github.com/Svyable/herdr-plugin-cmux-remix && cd herdr-plugin-cmux-remix
 herdr plugin link .        # live-edit; no build step
 ```
 
